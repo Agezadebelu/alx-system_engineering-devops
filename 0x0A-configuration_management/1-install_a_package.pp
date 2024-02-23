@@ -1,13 +1,12 @@
-#!/usr/bin/puppet
-
-# Ensure that apt-get update is executed before attempting to install packages
-exec { 'apt-get update':
+# Define the exec resource to update package lists
+exec { 'apt_update':
   command => '/usr/bin/apt-get update',
+  path    => ['/bin', '/usr/bin/'],
 }
 
-# Install a specific version of Flask (2.1.0) using pip3
-package { 'flask':
+# Install Flask version 2.1.0 using pip3
+package { 'Flask':
   ensure   => '2.1.0',
   provider => 'pip3',
-  require  => Exec['apt-get update'], # Ensure that apt-get update is executed before installing Flask
+  require  => Exec['apt_update'], # Ensure apt-get update is executed before installing Flask
 }
